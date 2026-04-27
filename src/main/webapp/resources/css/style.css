@@ -84,6 +84,14 @@ input[type="submit"]:hover {
     background: #274761;
 }
 
+.btn-danger {
+    background: #b42318;
+}
+
+.btn-danger:hover {
+    background: #912018;
+}
+
 .form-inline {
     display: flex;
     align-items: center;

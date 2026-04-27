@@ -7,6 +7,7 @@ import io.github.pradeeppk7.hrdirectoryfinal.service.EmployeeService;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 
@@ -58,6 +59,24 @@ public class EmployeeBean {
 
     public void filterByDepartment() {
         applyDepartmentFilter();
+    }
+
+    public void delete(Integer empId) {
+        boolean deleted = employeeService.deleteById(empId);
+
+        if (deleted) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Employee deleted successfully", null));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Employee not found", null));
+        }
+
+        if (keyword == null || keyword.trim().isEmpty()) {
+            applyDepartmentFilter();
+        } else {
+            employees = employeeService.searchByName(keyword);
+        }
     }
 
     private void applyDepartmentFilter() {

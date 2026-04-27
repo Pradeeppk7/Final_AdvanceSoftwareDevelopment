@@ -44,7 +44,22 @@ public class EmployeeService {
     }
 
     @RolesAllowed("ADMIN")
+    public void create(Employee employee) {
+        em.persist(employee);
+    }
+
+    @RolesAllowed("ADMIN")
     public void update(Employee employee) {
         em.merge(employee);
+    }
+
+    @RolesAllowed("ADMIN")
+    public boolean deleteById(Integer id) {
+        Employee employee = em.find(Employee.class, id);
+        if (employee == null) {
+            return false;
+        }
+        em.remove(employee);
+        return true;
     }
 }
