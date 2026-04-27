@@ -5,76 +5,82 @@
 
 <h:head>
     <title>Employees</title>
+    <h:outputStylesheet library="css" name="style.css" />
 </h:head>
 
 <h:body>
-    <h1>Employee List</h1>
+    <div class="page">
+        <div class="card">
+            <h1 class="page-title">Employee List</h1>
 
-    <h:link value="Back to Departments" outcome="departments" />
+            <div class="actions">
+                <h:link value="Back to Departments" outcome="departments" styleClass="btn-link btn-secondary" />
+            </div>
 
-    <br/><br/>
+            <h:messages globalOnly="true" styleClass="messages"
+                        infoClass="msg-info" errorClass="msg-error" fatalClass="msg-error" warnClass="msg-error"
+                        infoStyle="color:#0b6e4f;font-weight:700;background:#ecfdf3;border:1px solid #b7ebc6;padding:10px 12px;border-radius:10px;"
+                        errorStyle="color:#b42318;font-weight:700;background:#fef3f2;border:1px solid #fecaca;padding:10px 12px;border-radius:10px;" />
 
-    <h:messages globalOnly="true" infoStyle="color:green;" errorStyle="color:red;" />
+            <h:form styleClass="form-inline">
+                <h:outputLabel for="deptFilter" value="Filter by department:" />
+                <h:selectOneMenu id="deptFilter" value="#{employeeBean.deptId}">
+                    <f:selectItem itemLabel="All Departments" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{employeeBean.departments}" var="dept"
+                                   itemLabel="#{dept.deptName}" itemValue="#{dept.deptId}" />
+                </h:selectOneMenu>
+                <h:commandButton value="Apply Filter" action="#{employeeBean.filterByDepartment}" styleClass="btn" />
+            </h:form>
 
-    <h:form>
-        <h:outputLabel for="deptFilter" value="Filter by department: " />
-        <h:selectOneMenu id="deptFilter" value="#{employeeBean.deptId}">
-            <f:selectItem itemLabel="All Departments" itemValue="#{null}" noSelectionOption="true" />
-            <f:selectItems value="#{employeeBean.departments}" var="dept"
-                           itemLabel="#{dept.deptName}" itemValue="#{dept.deptId}" />
-        </h:selectOneMenu>
-        <h:commandButton value="Apply Filter" action="#{employeeBean.filterByDepartment}" />
-    </h:form>
+            <h:form styleClass="form-inline">
+                <h:outputLabel for="keyword" value="Search by name:" />
+                <h:inputText id="keyword" value="#{employeeBean.keyword}" />
+                <h:commandButton value="Search" action="#{employeeBean.search}" styleClass="btn" />
+            </h:form>
 
-    <br/>
+            <div class="table-wrap">
+                <h:dataTable value="#{employeeBean.employees}" var="emp" styleClass="data-table">
 
-    <h:form>
-        <h:outputLabel value="Search by name: " />
-        <h:inputText value="#{employeeBean.keyword}" />
-        <h:commandButton value="Search" action="#{employeeBean.search}" />
-    </h:form>
+                    <h:column>
+                        <f:facet name="header">Employee ID</f:facet>
+                        #{emp.empId}
+                    </h:column>
 
-    <br/>
+                    <h:column>
+                        <f:facet name="header">Full Name</f:facet>
+                        #{emp.fullName}
+                    </h:column>
 
-    <h:dataTable value="#{employeeBean.employees}" var="emp" border="1">
+                    <h:column>
+                        <f:facet name="header">Title</f:facet>
+                        #{emp.title}
+                    </h:column>
 
-        <h:column>
-            <f:facet name="header">Employee ID</f:facet>
-            #{emp.empId}
-        </h:column>
+                    <h:column>
+                        <f:facet name="header">Department</f:facet>
+                        #{emp.department.deptName}
+                    </h:column>
 
-        <h:column>
-            <f:facet name="header">Full Name</f:facet>
-            #{emp.fullName}
-        </h:column>
+                    <h:column>
+                        <f:facet name="header">Salary</f:facet>
+                        #{emp.salary}
+                    </h:column>
 
-        <h:column>
-            <f:facet name="header">Title</f:facet>
-            #{emp.title}
-        </h:column>
+                    <h:column>
+                        <f:facet name="header">Hire Date</f:facet>
+                        #{emp.hireDate}
+                    </h:column>
 
-        <h:column>
-            <f:facet name="header">Department</f:facet>
-            #{emp.department.deptName}
-        </h:column>
+                    <h:column rendered="#{facesContext.externalContext.isUserInRole('ADMIN')}">
+                        <f:facet name="header">Edit</f:facet>
+                        <h:link value="Edit" outcome="editEmployee" styleClass="btn-link">
+                            <f:param name="id" value="#{emp.empId}" />
+                        </h:link>
+                    </h:column>
 
-        <h:column>
-            <f:facet name="header">Salary</f:facet>
-            #{emp.salary}
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">Hire Date</f:facet>
-            #{emp.hireDate}
-        </h:column>
-
-        <h:column rendered="#{facesContext.externalContext.isUserInRole('ADMIN')}">
-            <f:facet name="header">Edit</f:facet>
-            <h:link value="Edit" outcome="editEmployee">
-                <f:param name="id" value="#{emp.empId}" />
-            </h:link>
-        </h:column>
-
-    </h:dataTable>
+                </h:dataTable>
+            </div>
+        </div>
+    </div>
 </h:body>
 </html>

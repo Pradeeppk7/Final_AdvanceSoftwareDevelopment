@@ -5,38 +5,47 @@
 
 <h:head>
     <title>Departments</title>
+    <h:outputStylesheet library="css" name="style.css" />
 </h:head>
 
 <h:body>
+    <div class="page">
+        <div class="card">
+            <h1 class="page-title">Department List</h1>
 
-    <h1>Department List</h1>
+            <div class="actions">
+                <h:link value="View All Employees" outcome="employees" styleClass="btn-link btn-secondary" />
+            </div>
 
-    <h:link value="View All Employees" outcome="employees" />
+            <p class="subtle">
+                Total Departments:
+                <h:outputText value="#{departmentBean.departments.size()}" />
+            </p>
 
-    <br/><br/>
-    <p>Total Departments: #{departmentBean.departments.size()}</p>
-    <h:outputText value="Total Departments: " />
-    <h:outputText value="#{departmentBean.departments.size()}" />
-    <h:dataTable value="#{departmentBean.departments}" var="dept" border="1">
+            <div class="table-wrap">
+                <h:dataTable value="#{departmentBean.departments}" var="dept" styleClass="data-table">
 
-        <h:column>
-            <f:facet name="header">Department ID</f:facet>
-            <h:outputText value="#{dept.deptId}" />
-        </h:column>
+                    <h:column>
+                        <f:facet name="header">Department ID</f:facet>
+                        <h:outputText value="#{dept.deptId}" />
+                    </h:column>
 
-        <h:column>
-            <f:facet name="header">Department Name</f:facet>
-            <h:outputText value="#{dept.deptName}" />
-        </h:column>
+                    <h:column>
+                        <f:facet name="header">Department Name</f:facet>
+                        <h:outputText value="#{dept.deptName}" />
+                    </h:column>
 
-        <h:column>
-            <f:facet name="header">Employees</f:facet>
-            <h:link value="View Employees" outcome="employees">
-                <f:param name="deptId" value="#{dept.deptId}" />
-            </h:link>
-        </h:column>
+                    <h:column>
+                        <f:facet name="header">Employees</f:facet>
+                        <h:link value="View Employees" outcome="employees" styleClass="btn-link">
+                            <f:param name="deptId" value="#{dept.deptId}" />
+                        </h:link>
+                    </h:column>
 
-    </h:dataTable>
+                </h:dataTable>
+            </div>
+        </div>
+    </div>
 
 </h:body>
 </html>

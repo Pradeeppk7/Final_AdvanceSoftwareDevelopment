@@ -5,62 +5,60 @@
 
 <h:head>
     <title>Edit Employee</title>
+    <h:outputStylesheet library="css" name="style.css" />
 </h:head>
 
 <h:body>
-    <h1>Edit Employee</h1>
+    <div class="page">
+        <div class="card">
+            <h1 class="page-title">Edit Employee</h1>
+            <p class="subtle">Update name, department, title and salary.</p>
 
-    <h:messages style="color:red" />
+            <h:messages styleClass="messages"
+                        infoClass="msg-info" errorClass="msg-error" fatalClass="msg-error" warnClass="msg-error"
+                        infoStyle="color:#0b6e4f;font-weight:700;background:#ecfdf3;border:1px solid #b7ebc6;padding:10px 12px;border-radius:10px;"
+                        errorStyle="color:#b42318;font-weight:700;background:#fef3f2;border:1px solid #fecaca;padding:10px 12px;border-radius:10px;" />
 
-    <h:form rendered="#{employeeEditBean.employeeFound}">
+            <h:form rendered="#{employeeEditBean.employeeFound}">
+                <div class="form-grid">
+                    <span class="field-label">Employee ID</span>
+                    <h:outputText value="#{employeeEditBean.employee.empId}" />
 
-        <p>
-            <strong>Employee ID:</strong>
-            #{employeeEditBean.employee.empId}
-        </p>
+                    <h:outputLabel styleClass="field-label" value="Name" />
+                    <h:inputText value="#{employeeEditBean.employee.fullName}" required="true"
+                                 requiredMessage="Name is required" />
 
-        <p>
-            <strong>Name:</strong>
-            <h:inputText value="#{employeeEditBean.employee.fullName}" required="true"
-                         requiredMessage="Name is required" />
-        </p>
+                    <h:outputLabel styleClass="field-label" value="Department" />
+                    <h:selectOneMenu value="#{employeeEditBean.selectedDeptId}" required="true"
+                                     requiredMessage="Department is required">
+                        <f:selectItem itemLabel="Select Department" itemValue="#{null}" noSelectionOption="true" />
+                        <f:selectItems value="#{employeeEditBean.departments}" var="dept"
+                                       itemLabel="#{dept.deptName}" itemValue="#{dept.deptId}" />
+                    </h:selectOneMenu>
 
-        <p>
-            <h:outputLabel value="Department: " />
-            <h:selectOneMenu value="#{employeeEditBean.selectedDeptId}" required="true"
-                             requiredMessage="Department is required">
-                <f:selectItem itemLabel="Select Department" itemValue="#{null}" noSelectionOption="true" />
-                <f:selectItems value="#{employeeEditBean.departments}" var="dept"
-                               itemLabel="#{dept.deptName}" itemValue="#{dept.deptId}" />
-            </h:selectOneMenu>
-        </p>
+                    <h:outputLabel styleClass="field-label" value="Title" />
+                    <h:inputText value="#{employeeEditBean.employee.title}" required="true"
+                                 requiredMessage="Title is required" />
 
-        <p>
-            <h:outputLabel value="Title: " />
-            <h:inputText value="#{employeeEditBean.employee.title}" required="true"
-                         requiredMessage="Title is required" />
-        </p>
+                    <h:outputLabel styleClass="field-label" value="Salary" />
+                    <h:inputText value="#{employeeEditBean.employee.salary}" required="true"
+                                 requiredMessage="Salary is required">
+                        <f:validateDoubleRange minimum="0" />
+                    </h:inputText>
+                </div>
 
-        <p>
-            <h:outputLabel value="Salary: " />
-            <h:inputText value="#{employeeEditBean.employee.salary}" required="true"
-                         requiredMessage="Salary is required">
-                <f:validateDoubleRange minimum="0" />
-            </h:inputText>
-        </p>
+                <div class="actions-row">
+                    <h:commandButton value="Save" action="#{employeeEditBean.save}" styleClass="btn" />
+                    <h:link value="Back to Employees" outcome="employees" styleClass="btn-link btn-secondary" />
+                </div>
+            </h:form>
 
-        <h:commandButton value="Save" action="#{employeeEditBean.save}" />
-
-        <br/><br/>
-
-        <h:link value="Back to Employees" outcome="employees" />
-
-    </h:form>
-
-    <h:panelGroup rendered="#{not employeeEditBean.employeeFound}">
-        <p>Employee not found.</p>
-        <h:link value="Back to Employees" outcome="employees" />
-    </h:panelGroup>
+            <h:panelGroup rendered="#{not employeeEditBean.employeeFound}">
+                <p>Employee not found.</p>
+                <h:link value="Back to Employees" outcome="employees" styleClass="btn-link btn-secondary" />
+            </h:panelGroup>
+        </div>
+    </div>
 
 </h:body>
 </html>
