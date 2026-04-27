@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <title>Add Employee</title>
+    <h:outputStylesheet library="css" name="style.css" />
+</h:head>
+
+<h:body>
+    <div class="page">
+        <div class="card">
+            <h1 class="page-title">Add Employee</h1>
+            <p class="subtle">Create a new employee record.</p>
+
+            <h:messages styleClass="messages"
+                        infoClass="msg-info" errorClass="msg-error" fatalClass="msg-error" warnClass="msg-error"
+                        infoStyle="color:#0b6e4f;font-weight:700;background:#ecfdf3;border:1px solid #b7ebc6;padding:10px 12px;border-radius:10px;"
+                        errorStyle="color:#b42318;font-weight:700;background:#fef3f2;border:1px solid #fecaca;padding:10px 12px;border-radius:10px;" />
+
+            <h:form>
+                <div class="form-grid">
+                    <h:outputLabel styleClass="field-label" value="Employee ID" />
+                    <h:inputText value="#{employeeCreateBean.employee.empId}" required="true"
+                                 requiredMessage="Employee ID is required">
+                        <f:validateLongRange minimum="1" />
+                    </h:inputText>
+
+                    <h:outputLabel styleClass="field-label" value="Name" />
+                    <h:inputText value="#{employeeCreateBean.employee.fullName}" required="true"
+                                 requiredMessage="Name is required" />
+
+                    <h:outputLabel styleClass="field-label" value="Department" />
+                    <h:selectOneMenu value="#{employeeCreateBean.selectedDeptId}" required="true"
+                                     requiredMessage="Department is required">
+                        <f:selectItem itemLabel="Select Department" itemValue="#{null}" noSelectionOption="true" />
+                        <f:selectItems value="#{employeeCreateBean.departments}" var="dept"
+                                       itemLabel="#{dept.deptName}" itemValue="#{dept.deptId}" />
+                    </h:selectOneMenu>
+
+                    <h:outputLabel styleClass="field-label" value="Title" />
+                    <h:inputText value="#{employeeCreateBean.employee.title}" required="true"
+                                 requiredMessage="Title is required" />
+
+                    <h:outputLabel styleClass="field-label" value="Salary" />
+                    <h:inputText value="#{employeeCreateBean.employee.salary}" required="true"
+                                 requiredMessage="Salary is required">
+                        <f:validateDoubleRange minimum="0" />
+                    </h:inputText>
+
+                    <h:outputLabel styleClass="field-label" value="Hire Date (yyyy-MM-dd)" />
+                    <h:inputText value="#{employeeCreateBean.hireDateInput}" />
+
+                </div>
+
+                <div class="actions-row">
+                    <h:commandButton value="Create" action="#{employeeCreateBean.save}" styleClass="btn" />
+                    <h:link value="Back to Employees" outcome="employees" styleClass="btn-link btn-secondary" />
+                </div>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>
