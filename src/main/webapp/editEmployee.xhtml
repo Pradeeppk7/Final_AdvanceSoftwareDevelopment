@@ -21,7 +21,18 @@
 
         <p>
             <strong>Name:</strong>
-            #{employeeEditBean.employee.fullName}
+            <h:inputText value="#{employeeEditBean.employee.fullName}" required="true"
+                         requiredMessage="Name is required" />
+        </p>
+
+        <p>
+            <h:outputLabel value="Department: " />
+            <h:selectOneMenu value="#{employeeEditBean.selectedDeptId}" required="true"
+                             requiredMessage="Department is required">
+                <f:selectItem itemLabel="Select Department" itemValue="#{null}" noSelectionOption="true" />
+                <f:selectItems value="#{employeeEditBean.departments}" var="dept"
+                               itemLabel="#{dept.deptName}" itemValue="#{dept.deptId}" />
+            </h:selectOneMenu>
         </p>
 
         <p>

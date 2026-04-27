@@ -18,4 +18,8 @@ public class DepartmentService {
                 Department.class
         ).getResultList();
     }
+
+    public Department findById(Integer deptId) {
+        return em.find(Department.class, deptId);
+    }
 }
