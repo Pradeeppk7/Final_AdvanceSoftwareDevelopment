@@ -9,8 +9,8 @@
 
         <jta-data-source>jdbc/HrDS</jta-data-source>
 
-        <class>io.github.pradeepkumar.hr.entity.Department</class>
-        <class>io.github.pradeepkumar.hr.entity.Employee</class>
+        <class>io.github.pradeeppk7.hrdirectoryfinal.entity.Department</class>
+        <class>io.github.pradeeppk7.hrdirectoryfinal.entity.Employee</class>
 
         <properties>
             <property name="jakarta.persistence.schema-generation.database.action" value="none"/>

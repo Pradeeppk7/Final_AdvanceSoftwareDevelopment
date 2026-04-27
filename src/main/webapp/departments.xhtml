@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <title>Departments</title>
+</h:head>
+
+<h:body>
+
+    <h1>Department List</h1>
+
+    <h:link value="View All Employees" outcome="employees" />
+
+    <br/><br/>
+    <p>Total Departments: #{departmentBean.departments.size()}</p>
+    <h:outputText value="Total Departments: " />
+    <h:outputText value="#{departmentBean.departments.size()}" />
+    <h:dataTable value="#{departmentBean.departments}" var="dept" border="1">
+
+        <h:column>
+            <f:facet name="header">Department ID</f:facet>
+            <h:outputText value="#{dept.deptId}" />
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Department Name</f:facet>
+            <h:outputText value="#{dept.deptName}" />
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Employees</f:facet>
+            <h:link value="View Employees" outcome="employees">
+                <f:param name="deptId" value="#{dept.deptId}" />
+            </h:link>
+        </h:column>
+
+    </h:dataTable>
+
+</h:body>
+</html>

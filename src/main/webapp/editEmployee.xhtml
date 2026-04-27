@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <title>Edit Employee</title>
+</h:head>
+
+<h:body>
+    <h1>Edit Employee</h1>
+
+    <h:messages style="color:red" />
+
+    <h:form rendered="#{employeeEditBean.employeeFound}">
+
+        <p>
+            <strong>Employee ID:</strong>
+            #{employeeEditBean.employee.empId}
+        </p>
+
+        <p>
+            <strong>Name:</strong>
+            #{employeeEditBean.employee.fullName}
+        </p>
+
+        <p>
+            <h:outputLabel value="Title: " />
+            <h:inputText value="#{employeeEditBean.employee.title}" required="true"
+                         requiredMessage="Title is required" />
+        </p>
+
+        <p>
+            <h:outputLabel value="Salary: " />
+            <h:inputText value="#{employeeEditBean.employee.salary}" required="true"
+                         requiredMessage="Salary is required">
+                <f:validateDoubleRange minimum="0" />
+            </h:inputText>
+        </p>
+
+        <h:commandButton value="Save" action="#{employeeEditBean.save}" />
+
+        <br/><br/>
+
+        <h:link value="Back to Employees" outcome="employees" />
+
+    </h:form>
+
+    <h:panelGroup rendered="#{not employeeEditBean.employeeFound}">
+        <p>Employee not found.</p>
+        <h:link value="Back to Employees" outcome="employees" />
+    </h:panelGroup>
+
+</h:body>
+</html>

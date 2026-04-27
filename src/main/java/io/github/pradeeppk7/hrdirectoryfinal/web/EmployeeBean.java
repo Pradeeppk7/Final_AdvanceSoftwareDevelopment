@@ -7,6 +7,7 @@ import io.github.pradeeppk7.hrdirectoryfinal.service.EmployeeService;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 
 import java.util.List;
@@ -30,14 +31,40 @@ public class EmployeeBean {
     @PostConstruct
     public void init() {
         departments = departmentService.getAllDepartments();
-        employees = employeeService.getAllEmployees();
+
+        String deptIdParam = FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getRequestParameterMap()
+                .get("deptId");
+
+        if (deptIdParam != null && !deptIdParam.isBlank()) {
+            try {
+                deptId = Integer.valueOf(deptIdParam);
+            } catch (NumberFormatException ignored) {
+                deptId = null;
+            }
+        }
+
+        applyDepartmentFilter();
     }
 
     public void search() {
         if (keyword == null || keyword.trim().isEmpty()) {
-            employees = employeeService.getAllEmployees();
+            applyDepartmentFilter();
         } else {
             employees = employeeService.searchByName(keyword);
+        }
+    }
+
+    public void filterByDepartment() {
+        applyDepartmentFilter();
+    }
+
+    private void applyDepartmentFilter() {
+        if (deptId == null) {
+            employees = employeeService.getAllEmployees();
+        } else {
+            employees = employeeService.getEmployeesByDepartment(deptId);
         }
     }
 
